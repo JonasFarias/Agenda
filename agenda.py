@@ -6,7 +6,6 @@ AGENDA = {'jonas':{
 
 }
 
-
 def exibir_agenda():
     if len(AGENDA) == 0:
         print('Nenhum Contato Cadastrado')
@@ -18,5 +17,17 @@ def exibir_agenda():
             print("Endereço:", AGENDA[contato]['endereco'])
             print('-' * 30)
 
+def buscar_contato():
+    contato = input('Buscar: ')
+    for nome in AGENDA:
+        if nome == contato:
+            print('\n')
+            print('-' * 30)
+            print(f'Nome: {contato}')
+            print("Telefone: ", AGENDA[contato]['tel'])
+            print("Email: ", AGENDA[contato]['email'])
+            print("Endereço: ", AGENDA[contato]['endereco'])
 
-exibir_agenda()
+
+
+buscar_contato()
