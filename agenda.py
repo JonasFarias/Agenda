@@ -17,14 +17,22 @@ def exibir_agenda():
             buscar_contato(contato)
 
 def buscar_contato(contato):
-    print('\n')
-    print('-' * 30)
-    print(f'Nome: {contato}')
-    print("Telefone: ", AGENDA[contato]['tel'])
-    print("Email: ", AGENDA[contato]['email'])
-    print("Endereço: ", AGENDA[contato]['endereco'])
+    try:
+        print('\n')
+        print('-' * 30)
+        print(f'Nome: {contato}')
+        print("Telefone: ", AGENDA[contato]['tel'])
+        print("Email: ", AGENDA[contato]['email'])
+        print("Endereço: ", AGENDA[contato]['endereco'])
+    except KeyError:
+        print('Contato Inexistente')
 
-def inclur_editar_contato(nome, telefone, email, endereco):
+def inclur_editar_contato(nome):
+    telefone = input('Telefone: ')
+    email = input('Email: ')
+    endereco = input('Endereço: ')
+    inclur_editar_contato(nome, telefone, email, endereco)
+
     AGENDA[nome] = {
         'tel': telefone,
         'email': email,
@@ -33,45 +41,58 @@ def inclur_editar_contato(nome, telefone, email, endereco):
     print(f'--> Contato {nome}, adicionado com sucesso!')
 
 def excluir_contato(contato):
-    AGENDA.pop(contato)
-    print(f'{contato}, excluido com sucesso!')
+    try:
+       AGENDA.pop(contato)
+       print(f'{contato}, excluido com sucesso!')
+    except KeyError:
+        print('Contato Inexistente')
+    except Exception as error:
+        print('Um erro Inesperado aconteceu!!')
+        print(error)
 
 
-def opcoes_menu():
+
+def menu():
+    print('-' * 30)
+    print('1 - EXIBIR TODOS CONTATOS')
+    print('2 - BUSCAR CONTATO')
+    print('3 - ADICIONAR CONTATO')
+    print('4 - EDITAR CONTATO')
+    print('5 - EXCLUIR CONTATO')
+    print('0 - FECHAR AGENDA')
+    print('-' * 30)
+menu()
+
+while True:
     opcao = int(input('Qual  Opção: '))
     if opcao == 1:
         exibir_agenda()
     elif opcao == 2:
         contato = input('Buscar: ')
         buscar_contato(contato)
-    elif opcao == 3 or 4:
-        nome = input('Nome: ')
-        telefone = input('Telefone: ')
-        email = input('Email: ')
-        endereco = input('Endereço: ')
-        inclur_editar_contato(nome, telefone, email, endereco)
+    elif opcao == 3:
+        try:
+            nome = input('Nome: ')
+            AGENDA[nome]
+            print('Esse contato Já existe')
+        except:
+            inclur_editar_contato(nome)
     elif opcao == 4:
-        inclur_editar_contato()
+        try:
+            nome = input('Nome: ')
+            AGENDA[nome]
+            print('Editando contato')
+            inclur_editar_contato(nome)
+        except:
+            print('Contato Não Cadastrado')
+
     elif opcao == 5:
         contato = input('Contato: ')
         excluir_contato(contato)
     elif opcao == 0:
-        pass
-
-def exibir_menu():
-    while True:
-        print('\n')
-        print('1 - EXIBIR TODOS CONTATOS')
-        print('2 - BUSCAR CONTATO')
-        print('3 - ADICIONAR CONTATO')
-        print('4 - EDITAR CONTATO')
-        print('5 - EXCLUIR CONTATO')
-        print('0 - FECHAR AGENDA')
-        opcoes_menu()
+        print('Fechando Programa')
+        break
+    else:
+        print('Opção Invalida')
 
 
-
-
-
-exibir_menu()
-opcoes_menu()
